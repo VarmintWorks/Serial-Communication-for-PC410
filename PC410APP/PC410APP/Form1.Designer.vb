@@ -283,7 +283,7 @@ Partial Class Form1
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(228, 95)
+        Me.Label13.Location = New System.Drawing.Point(257, 95)
         Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(21, 20)
@@ -292,7 +292,7 @@ Partial Class Form1
         '
         'TxtSVnow
         '
-        Me.TxtSVnow.Location = New System.Drawing.Point(124, 87)
+        Me.TxtSVnow.Location = New System.Drawing.Point(157, 88)
         Me.TxtSVnow.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TxtSVnow.Name = "TxtSVnow"
         Me.TxtSVnow.Size = New System.Drawing.Size(92, 26)
@@ -311,7 +311,7 @@ Partial Class Form1
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(230, 147)
+        Me.Label9.Location = New System.Drawing.Point(257, 147)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(21, 20)
@@ -320,7 +320,7 @@ Partial Class Form1
         '
         'TxtDegree
         '
-        Me.TxtDegree.Location = New System.Drawing.Point(123, 142)
+        Me.TxtDegree.Location = New System.Drawing.Point(157, 142)
         Me.TxtDegree.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TxtDegree.Name = "TxtDegree"
         Me.TxtDegree.Size = New System.Drawing.Size(92, 26)
@@ -338,7 +338,7 @@ Partial Class Form1
         '
         'TxtAddress
         '
-        Me.TxtAddress.Location = New System.Drawing.Point(124, 35)
+        Me.TxtAddress.Location = New System.Drawing.Point(157, 41)
         Me.TxtAddress.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TxtAddress.Name = "TxtAddress"
         Me.TxtAddress.Size = New System.Drawing.Size(133, 26)
@@ -541,15 +541,15 @@ Partial Class Form1
         '
         'LabelPort
         '
-        Me.LabelPort.AutoSize = True
         Me.LabelPort.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.LabelPort.Font = New System.Drawing.Font("SimSun", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LabelPort.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelPort.Location = New System.Drawing.Point(27, 472)
         Me.LabelPort.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.LabelPort.Name = "LabelPort"
-        Me.LabelPort.Size = New System.Drawing.Size(278, 58)
+        Me.LabelPort.Size = New System.Drawing.Size(294, 57)
         Me.LabelPort.TabIndex = 16
         Me.LabelPort.Text = "         "
+        Me.LabelPort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'GroupBox4
         '
@@ -577,7 +577,7 @@ Partial Class Form1
         'Label23
         '
         Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(210, 42)
+        Me.Label23.Location = New System.Drawing.Point(254, 43)
         Me.Label23.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(24, 20)
@@ -587,7 +587,7 @@ Partial Class Form1
         'Label22
         '
         Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(212, 140)
+        Me.Label22.Location = New System.Drawing.Point(254, 133)
         Me.Label22.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(21, 20)
@@ -597,7 +597,7 @@ Partial Class Form1
         'Label21
         '
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(210, 87)
+        Me.Label21.Location = New System.Drawing.Point(254, 86)
         Me.Label21.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(21, 20)
@@ -607,7 +607,7 @@ Partial Class Form1
         'Label20
         '
         Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(210, 190)
+        Me.Label20.Location = New System.Drawing.Point(242, 177)
         Me.Label20.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(33, 20)
@@ -616,7 +616,7 @@ Partial Class Form1
         '
         'TxtSpeed
         '
-        Me.TxtSpeed.Location = New System.Drawing.Point(104, 175)
+        Me.TxtSpeed.Location = New System.Drawing.Point(157, 171)
         Me.TxtSpeed.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TxtSpeed.Name = "TxtSpeed"
         Me.TxtSpeed.Size = New System.Drawing.Size(96, 26)
@@ -634,7 +634,7 @@ Partial Class Form1
         '
         'TxtSVMin
         '
-        Me.TxtSVMin.Location = New System.Drawing.Point(105, 130)
+        Me.TxtSVMin.Location = New System.Drawing.Point(157, 124)
         Me.TxtSVMin.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TxtSVMin.Name = "TxtSVMin"
         Me.TxtSVMin.Size = New System.Drawing.Size(96, 26)
@@ -652,7 +652,7 @@ Partial Class Form1
         '
         'TxtSVMax
         '
-        Me.TxtSVMax.Location = New System.Drawing.Point(105, 80)
+        Me.TxtSVMax.Location = New System.Drawing.Point(157, 73)
         Me.TxtSVMax.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TxtSVMax.Name = "TxtSVMax"
         Me.TxtSVMax.Size = New System.Drawing.Size(96, 26)
@@ -670,7 +670,7 @@ Partial Class Form1
         '
         'TxtPower
         '
-        Me.TxtPower.Location = New System.Drawing.Point(104, 37)
+        Me.TxtPower.Location = New System.Drawing.Point(157, 37)
         Me.TxtPower.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TxtPower.Name = "TxtPower"
         Me.TxtPower.Size = New System.Drawing.Size(96, 26)
