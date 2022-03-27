@@ -6,15 +6,17 @@ Public Class Form1
     'Inherits System.Windows.Forms.Form
     Dim buffer As String
     Dim strBuffer As String
-    Dim strPVD As String     'PV值
-    Dim strSVD As String     'SV值
-    Dim r1 As String     '地址第一位数
-    Dim r2 As String     '地址第二位数
-    Dim myForm2 As New Form2     '绘制图像窗体
-    Delegate Sub DataBackThread(ByVal strDataBack As String)  '定义委托
+    Dim strPVD As String     'PV value
+    Dim strSVD As String     'SV value
+    Dim r1 As String     'first digit of address
+    Dim r2 As String     'second digit of address
+    Dim myForm2 As New Form2     'Draw Image form
+    Delegate Sub DataBackThread(ByVal strDataBack As String)  'Define delegate
     Dim DataBack1 As New DataBackThread(AddressOf ShowBuffer)
     Dim DataBack2 As New DataBackThread(AddressOf ShowPVData)
-    '显示结果(定义一个实例)
+
+
+    'Display the result (define an instance)
     Private Sub ShowBuffer(ByVal BufferData As String)
         Me.TxtbufferShow.Text = Me.TxtbufferShow.Text & BufferData & vbCrLf
     End Sub
@@ -22,7 +24,8 @@ Public Class Form1
     Private Sub ShowPVData(ByVal PVData As String)
         Me.TxtPVShow.AppendText(PVData & vbCrLf)
     End Sub
-    '判断是否为跨线程
+
+    'Determine whether it is cross-thread
     Private Sub DisPlayBufferData(ByVal strTemp As String)
         If Me.TxtbufferShow.InvokeRequired Then
             Me.Invoke(DataBack1, New Object() {strTemp})
@@ -45,10 +48,10 @@ Public Class Form1
         myForm2.Hide()
         COMPortName()
         If SerialPort1.IsOpen = True Then
-            LabelPort.Text = "串口已打开"
+            LabelPort.Text = "Serial port is open"
             LabelPort.ForeColor = Color.Green
         Else
-            LabelPort.Text = "串口已关闭"
+            LabelPort.Text = "Serial port is closed"
             LabelPort.ForeColor = Color.Red
         End If
     End Sub
@@ -119,10 +122,10 @@ Public Class Form1
         SerialPort1.Encoding = System.Text.Encoding.Default
         SerialPort1.Open()
         If SerialPort1.IsOpen = True Then
-            LabelPort.Text = "串口已打开"
+            LabelPort.Text = "Serial port is open"
             LabelPort.ForeColor = Color.Green
         Else
-            LabelPort.Text = "串口已关闭"
+            LabelPort.Text = "Serial port is closed"
             LabelPort.ForeColor = Color.Red
             SerialPort1.Open()
         End If
@@ -131,25 +134,27 @@ Public Class Form1
     Private Sub ButClose_Click(sender As Object, e As EventArgs) Handles ButClose.Click
         SerialPort1.Close()
         If SerialPort1.IsOpen = True Then
-            LabelPort.Text = "串口已打开"
+            LabelPort.Text = "Serial port is open"
             LabelPort.ForeColor = Color.Green
             SerialPort1.Close()
         Else
-            LabelPort.Text = "串口已关闭"
+            LabelPort.Text = "Serial port is closed"
             LabelPort.ForeColor = Color.Red
         End If
     End Sub
-    '读取PV值
+
+    'Read PV value
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         SerialPort1.ReceivedBytesThreshold = 10
         SendOrderReadPV()
     End Sub
-    '接收仪器应答命令帧
+
+    'Receive instrument response command frame
     Private Sub SerialPort1_DataReceived(sender As Object, e As IO.Ports.SerialDataReceivedEventArgs) Handles SerialPort1.DataReceived
         ReadCOMData()
-        DisPlayBufferData(buffer)   '文本框显示接收到的命令帧
+        DisPlayBufferData(buffer)   'Text box showing received command frame
         ChooseReadPath()
-        'Me.Invoke(New EventHandler(AddressOf ChooseReadPath))  '调用函数
+        'Me.Invoke(New EventHandler(AddressOf ChooseReadPath))  'Call functions
     End Sub
 
     Private Sub ButSendPV_Click(sender As Object, e As EventArgs) Handles ButSendPV.Click
@@ -162,7 +167,7 @@ Public Class Form1
 
     Private Sub ButSetSV_Click(sender As Object, e As EventArgs) Handles ButSetSV.Click
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取PV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             SerialPort1.ReceivedBytesThreshold = 1
             SendOrderSetSV()
@@ -171,13 +176,14 @@ Public Class Form1
 
     Private Sub ButReadSV_Click(sender As Object, e As EventArgs) Handles ButReadSV.Click
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取PV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             SerialPort1.ReceivedBytesThreshold = 10
             SendOrderReadSV()
         End If
     End Sub
-    '初始化通讯地址
+
+    'Initialize the communication address
     Private Sub ButComAddress_Click(sender As Object, e As EventArgs) Handles ButComAddress.Click
         Dim t1, t2 As Char
         t1 = Mid(TxtAddress.Text, 1, 1)
@@ -185,12 +191,14 @@ Public Class Form1
         r1 = Hex(Asc(Val(t1)))
         r2 = Hex(Asc(Val(t2)))
     End Sub
-    '清空监视窗口
+
+    'Clear the watch window
     Private Sub ButClear_Click(sender As Object, e As EventArgs) Handles ButClear.Click
         TxtbufferShow.Text = ""
         TxtPVShow.Clear()
     End Sub
-    '绘图
+
+    'Drawing
     Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
         Draw()
     End Sub
@@ -204,70 +212,78 @@ Public Class Form1
         myForm2.Hide()
         Timer2.Stop()
     End Sub
-    '设置发送读取PV值命令的频率
+
+    'Set how often to send read PV value command
     Private Sub ButSetSC_Click(sender As Object, e As EventArgs) Handles ButSetSC.Click
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取PV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             Timer1.Interval = Val(TxtSendCycle.Text)
         End If
     End Sub
-    '读取输出功率
+
+    'Read output power
     Private Sub ButReadPower_Click(sender As Object, e As EventArgs) Handles ButReadPower.Click
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取PV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             SerialPort1.ReceivedBytesThreshold = 10
             SendOrderPower()
         End If
     End Sub
-    '读取SV最大值
+
+    'Read SV maximum value
     Private Sub ButReadSVMax_Click(sender As Object, e As EventArgs) Handles ButReadSVMax.Click
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取PV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             SerialPort1.ReceivedBytesThreshold = 10
             SendOrderSVMax()
         End If
     End Sub
-    '读取SV最小值
+
+    'Read SV minimum
     Private Sub ButReadSVMin_Click(sender As Object, e As EventArgs) Handles ButReadSVMin.Click
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取PV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             SerialPort1.ReceivedBytesThreshold = 10
             SendOrderSVMin()
         End If
     End Sub
-    '读取升温速率
+
+    'Read ramp rate
     Private Sub ButReadSpeed_Click(sender As Object, e As EventArgs) Handles ButReadSpeed.Click
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取PV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             SerialPort1.ReceivedBytesThreshold = 10
             SendOrderSpeed()
         End If
     End Sub
-    '启动PID自整定
+
+    'Start PID auto-tuning
     Private Sub ButStartPID_Click(sender As Object, e As EventArgs) Handles ButStartPID.Click
-        MsgBox("请勿改变SV值！改变SV值前请先停止PID自整定！")
+        MsgBox("Do not change the SV value! Please stop the PID auto-tuning before changing the SV value!")
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取SV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             SerialPort1.ReceivedBytesThreshold = 1
             SendOrderStartPID()
         End If
     End Sub
-    '停止PID自整定
+
+    'Stop PID auto-tuning
     Private Sub ButStopPID_Click(sender As Object, e As EventArgs) Handles ButStopPID.Click
         If Timer1.Enabled = True Then
-            MsgBox("请先停止读取PV值！")
+            MsgBox("Please stop reading PV value first！")
         Else
             SerialPort1.ReceivedBytesThreshold = 1
             SendOrderStopPID()
         End If
     End Sub
-    '获取主机串口名称
+
+    '    Get host serial port name
     Private Sub COMPortName()
         Dim strPortName As String()
         Dim i As Short
@@ -276,7 +292,8 @@ Public Class Form1
             ComboBoxName.Items.Add(strPortName(i))
         Next
     End Sub
-    '读取PV值
+
+    'Read PV value
     Private Sub SendOrderReadPV()
         Dim OrderPV(8) As Byte
         OrderPV(0) = Val("&H" & "04")
@@ -287,9 +304,10 @@ Public Class Form1
         OrderPV(5) = Val("&H" & "50")
         OrderPV(6) = Val("&H" & "56")
         OrderPV(7) = Val("&H" & "05")
-        SerialPort1.Write(OrderPV, 0, 8) '请求PV值命令(16进制)
+        SerialPort1.Write(OrderPV, 0, 8) 'Request PV value command (hexadecimal)
     End Sub
-    '读取SV值
+
+    'Read SV value
     Private Sub SendOrderReadSV()
         Dim OrderSV(8) As Byte
         OrderSV(0) = Val("&H" & "04")
@@ -300,9 +318,10 @@ Public Class Form1
         OrderSV(5) = Val("&H" & "53")
         OrderSV(6) = Val("&H" & "50")
         OrderSV(7) = Val("&H" & "05")
-        SerialPort1.Write(OrderSV, 0, 8)   '读取SV值命令（16进制）
+        SerialPort1.Write(OrderSV, 0, 8)   'Read SV value command (hexadecimal)
     End Sub
-    '设置SV值
+
+    'Set SV value
     Private Sub SendOrderSetSV()
         Dim t1, t2, t3 As Char
         Dim d1, d2, d3 As String
@@ -320,7 +339,7 @@ Public Class Form1
         d1 = Hex(Asc(Val(t1)))
         d2 = Hex(Asc(Val(t2)))
         d3 = Hex(Asc(Val(t3)))
-        BCCTemp = Convert.ToByte("53", 16) Xor Convert.ToByte("4C", 16) Xor Convert.ToByte(d1, 16) Xor Convert.ToByte(d2, 16) Xor Convert.ToByte(d3, 16) Xor Convert.ToByte("03", 16)  '计算BCC命令帧校验位的值
+        BCCTemp = Convert.ToByte("53", 16) Xor Convert.ToByte("4C", 16) Xor Convert.ToByte(d1, 16) Xor Convert.ToByte(d2, 16) Xor Convert.ToByte(d3, 16) Xor Convert.ToByte("03", 16)  'Calculate the value of the check digit of the BCC command frame
         BCC = Hex(BCCTemp)
         OrderSet(0) = Val("&H" & "04")
         OrderSet(1) = Val("&H" & r1)
@@ -335,9 +354,10 @@ Public Class Form1
         OrderSet(10) = Val("&H" & d3)
         OrderSet(11) = Val("&H" & "03")
         OrderSet(12) = Val("&H" & BCC)
-        SerialPort1.Write(OrderSet, 0, 13) '发送修改SV值的命令(16进制)
+        SerialPort1.Write(OrderSet, 0, 13) 'Send the command to modify the SV value (hexadecimal)
     End Sub
-    '读取输出功率
+
+    'read output power
     Private Sub SendOrderPower()
         Dim OrderPower(8) As Byte
         OrderPower(0) = Val("&H" & "04")
@@ -350,7 +370,8 @@ Public Class Form1
         OrderPower(7) = Val("&H" & "05")
         SerialPort1.Write(OrderPower, 0, 8)
     End Sub
-    '读取SV最大设定值
+
+    'Read the SV maximum Set value
     Private Sub SendOrderSVMax()
         Dim OrderSVMax(8) As Byte
         OrderSVMax(0) = Val("&H" & "04")
@@ -363,7 +384,8 @@ Public Class Form1
         OrderSVMax(7) = Val("&H" & "05")
         SerialPort1.Write(OrderSVMax, 0, 8)
     End Sub
-    '读取SV最小设定值
+
+    'Read SV minimum Set value
     Private Sub SendOrderSVMin()
         Dim OrderSVMin(8) As Byte
         OrderSVMin(0) = Val("&H" & "04")
@@ -376,6 +398,7 @@ Public Class Form1
         OrderSVMin(7) = Val("&H" & "05")
         SerialPort1.Write(OrderSVMin, 0, 8)
     End Sub
+
     '读取升温速率
     Private Sub SendOrderSpeed()
         Dim OrderSpeed(8) As Byte
@@ -389,11 +412,12 @@ Public Class Form1
         OrderSpeed(7) = Val("&H" & "05")
         SerialPort1.Write(OrderSpeed, 0, 8)
     End Sub
-    '启动PID自整定
+
+    'Start PID auto-tuning
     Private Sub SendOrderStartPID()
         Dim OrderPID(14) As Byte
         Dim BCCTemp, BCC As String
-        BCCTemp = Convert.ToByte("23", 16) Xor Convert.ToByte("34", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("1", 16) Xor Convert.ToByte("03", 16)  '计算BCC命令帧校验位的值
+        BCCTemp = Convert.ToByte("23", 16) Xor Convert.ToByte("34", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("1", 16) Xor Convert.ToByte("03", 16)  'Calculate the value of the check digit of the BCC command frame
         BCC = Hex(BCCTemp)
         OrderPID(0) = Val("&H" & "04")
         OrderPID(1) = Val("&H" & r1)
@@ -411,11 +435,12 @@ Public Class Form1
         OrderPID(13) = Val("&H" & BCC)
         SerialPort1.Write(OrderPID, 0, 14)
     End Sub
-    '停止PID自整定
+
+    'Stop PID auto-tuning
     Private Sub SendOrderStopPID()
         Dim OrderPID(14) As Byte
         Dim BCCTemp, BCC As String
-        BCCTemp = Convert.ToByte("23", 16) Xor Convert.ToByte("34", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("03", 16)  '计算BCC命令帧校验位的值
+        BCCTemp = Convert.ToByte("23", 16) Xor Convert.ToByte("34", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("0", 16) Xor Convert.ToByte("03", 16)  'Calculate the value of the check digit of the BCC command frame
         BCC = Hex(BCCTemp)
         OrderPID(0) = Val("&H" & "04")
         OrderPID(1) = Val("&H" & r1)
@@ -433,7 +458,8 @@ Public Class Form1
         OrderPID(13) = Val("&H" & BCC)
         SerialPort1.Write(OrderPID, 0, 14)
     End Sub
-    '读取仪器应答命令帧
+
+    'Read instrument response command frame
     Private Sub ReadCOMData()
         Dim i As Integer
         Dim ByteToRead As Integer
@@ -441,13 +467,14 @@ Public Class Form1
         ByteToRead = SerialPort1.BytesToRead
         buffer = ""
         ReDim Inbyte(ByteToRead)
-        SerialPort1.Read(Inbyte, 0, ByteToRead)   '读取接收缓冲区内的命令帧
+        SerialPort1.Read(Inbyte, 0, ByteToRead)   'Read the command frame in the receive buffer
         For i = LBound(Inbyte) To UBound(Inbyte)
             buffer = buffer & Hex(Inbyte(i)) & Chr(32)
         Next i
         strBuffer = buffer.Replace(" ", "")
     End Sub
-    '选择读取方式
+
+    'Choose how To read
     Private Sub ChooseReadPath()
         If Len(strBuffer) = 2 Or Len(strBuffer) = 3 Then
             SetSuccess()
@@ -482,33 +509,36 @@ Public Class Form1
                 Exit Select
         End Select
     End Sub
-    '读取PV值并存储
+
+    'Read PV value And store
     Private Sub ReadPVData()
         Dim strRx As String
-        'strRx = SerialPort1.ReadExisting.ToString    '读取来自串口的接收缓冲区的全部数据
+        'strRx = SerialPort1.ReadExisting.ToString    'Read all data from the receive buffer of the serial port
         'If SerialPort1.BytesToRead > 0 Then
         '    Threading.Thread.Sleep(10)
-        '    strRx = SerialPort1.ReadExisting.ToString    '读取来自串口的接收缓冲区的全部数据
-        '    SerialPort1.DiscardInBuffer()    '丢弃来自串口的接收缓冲区的数据
+        '    strRx = SerialPort1.ReadExisting.ToString    'Read all data from the receive buffer of the serial port
+        '    SerialPort1.DiscardInBuffer()    '        Discard Data from serial port's receive buffer
         'Else
         '    Exit Sub
         'End If
-        strRx = Mid(strBuffer, 7, 1) & Mid(strBuffer, 9, 1) & Mid(strBuffer, 11, 1) & Mid(strBuffer, 13, 1)  'PV值的提取
+        strRx = Mid(strBuffer, 7, 1) & Mid(strBuffer, 9, 1) & Mid(strBuffer, 11, 1) & Mid(strBuffer, 13, 1)  'Extraction of PV value
         strRx = strRx.Replace(" ", "")
         strPVD = Str(Val(strRx))
-        TxtPVShow.Text = TxtPVShow.Text & strPVD & vbCrLf     '文本框PV值显示
+        TxtPVShow.Text = TxtPVShow.Text & strPVD & vbCrLf     '        Text box PV value display
         'DisplayPVData(strPVD)
         Printtext()
     End Sub
-    '读取SV值
+
+    'Read SV value
     Private Sub ReadSVData()
         Dim strRx As String
         strRx = Mid(strBuffer, 7, 1) & Mid(strBuffer, 9, 1) & Mid(strBuffer, 11, 1) & Mid(strBuffer, 13, 1)
         strRx = strRx.Replace(" ", "")
         strSVD = Str(Val(strRx))
-        TxtSVnow.Text = strSVD    '文本框显示SV值
+        TxtSVnow.Text = strSVD    'The text box displays the SV value
     End Sub
-    '读取输出功率
+
+    'read output power
     Private Sub ReadPower()
         Dim strPower As String
         Dim strRx As String
@@ -517,7 +547,8 @@ Public Class Form1
         strPower = Str(Val(strRx))
         TxtPower.Text = strPower
     End Sub
-    '读取SV设定值最大值
+
+    'Read the maximum value of SV set value
     Private Sub ReadSVMax()
         Dim strSVMax As String
         Dim strRx As String
@@ -526,7 +557,8 @@ Public Class Form1
         strSVMax = Str(Val(strRx))
         TxtSVMax.Text = strSVMax
     End Sub
-    '读取SV设定值最小值
+
+    'Read the minimum value of SV set value
     Private Sub ReadSVMin()
         Dim strSVMin As String
         Dim strRx As String
@@ -535,7 +567,8 @@ Public Class Form1
         strSVMin = Str(Val(strRx))
         TxtSVMin.Text = strSVMin
     End Sub
-    '读取升温速率
+
+    'Read ramp rate
     Private Sub ReadSpeed()
         Dim strSpeed As String
         Dim strRx As String
@@ -544,15 +577,17 @@ Public Class Form1
         strSpeed = Str(Val(strRx))
         TxtSpeed.Text = strSpeed
     End Sub
-    '检测设定值是否成功
+
+    'Check whether the set value is successful
     Private Sub SetSuccess()
         If strBuffer = "60" Then
-            MsgBox("修改成功！", MsgBoxStyle.Information)
+            MsgBox("Successfully modified！", MsgBoxStyle.Information)
         ElseIf strBuffer = "150" Then
-            MsgBox("修改失败！", MsgBoxStyle.Exclamation)
+            MsgBox("Failed to edit！", MsgBoxStyle.Exclamation)
         End If
     End Sub
-    '数据记录文本输出
+
+    'Data record text output
     Private Sub Printtext()
         Dim TimeNow As Date
         TimeNow = TimeOfDay
@@ -561,15 +596,17 @@ Public Class Form1
         FileClose(1)
         'My.Computer.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "\PC410text.txt", TimeNow & strSVD & strPVD, True)
     End Sub
-    '绘制图像
+
+    'Data record text output
     Private Sub Draw()
         Dim Ypv As Short
         Dim Ysv As Short
-        Static i As Integer = 0   '秒数
+        Static i As Integer = 0   'seconds
         i = i + 1
         Ypv = Val(strPVD)
         Ysv = Val(strSVD)
         myForm2.PaintPV(i, Ypv)
         myForm2.PaintSV(i, Ysv)
     End Sub
+
 End Class
